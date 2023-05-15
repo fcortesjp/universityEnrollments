@@ -53,10 +53,12 @@ namespace universityEnrollments
                 formOfPayment = value; // guarda forma De Pago
             }
         }
-        class Program
+    }
+    class Program
     {
         static void Main(string[] args)
         {
+                //pass
         }
     }
 }
