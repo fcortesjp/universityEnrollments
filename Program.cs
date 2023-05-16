@@ -18,6 +18,7 @@ namespace universityEnrollments
         private int formOfPayment;
         private double fullPayment;
         private double discount;
+        private double discounted;
         private double netPayment;
         private int credits;
 
@@ -82,6 +83,17 @@ namespace universityEnrollments
             }
         }
 
+        public double Discounted
+        {
+            get
+            {
+                return discounted; // retorna descuento
+            }
+            set
+            {
+                discounted = value; // guarda descuento
+            }
+        }
         public double NetPayment
         {
             get
@@ -256,12 +268,12 @@ namespace universityEnrollments
                 while (true)
                 {
                     //muestre el menu de opciones y pida al usuario que ingrese una de ellas
-                    Console.Write("Ingrese el código del programa para matrícula " + (i + 1) + ":\n\n ");
                     Console.WriteLine("1: Ingeniería de sistemas");
                     Console.WriteLine("2: Psicología");
                     Console.WriteLine("3: Economía");
                     Console.WriteLine("4: Comunicación Social");
                     Console.WriteLine("5: Administración de Empresas");
+                    Console.Write("Ingrese el código del programa para matrícula " + (i + 1) + ": ");
                     string schoolProgramStr = Console.ReadLine();
 
                     // revise si el dato ingresado esta en blanco o nulo
@@ -281,8 +293,8 @@ namespace universityEnrollments
                         //regrese al inicio del loop
                         continue;
                     }
-                    //revise que el codigo es un numero entre 1 y 5
-                    if (schoolProgramInt >= 1 && schoolProgramInt <= 5)
+                    //revise si el codigo es menor de 1 o mayor 5
+                    if (schoolProgramInt < 1 || schoolProgramInt > 5)
                     {
                         //si es asi, indique mensaje de error
                         Console.WriteLine("Error: El dato debe ser un numero entre 1 y 5");
@@ -297,9 +309,9 @@ namespace universityEnrollments
                 while (true)
                 {
                     //muestre el menu de opciones y pida al usuario que ingrese una de ellas
-                    Console.Write("Ingrese la forma de pago " + (i + 1) + ":\n\n ");
                     Console.WriteLine("1: Efectivo");
                     Console.WriteLine("2: En Linea");
+                    Console.Write("Ingrese la forma de pago " + (i + 1) + ": ");
                     string formOfPaymentStr = Console.ReadLine();
 
                     // revise si el dato ingresado esta en blanco o nulo
@@ -319,8 +331,8 @@ namespace universityEnrollments
                         //regrese al inicio del loop
                         continue;
                     }
-                    //revise que el codigo es un numero 1 o 2
-                    if (formOfPaymentInt >= 1 && schoolProgramInt <= 2)
+                    //revise que el codigo es menor que 1 o mayor que 2
+                    if (formOfPaymentInt < 1 || schoolProgramInt > 2)
                     {
                         //si es asi, indique mensaje de error
                         Console.WriteLine("Error: El dato debe ser 1 o 2");
@@ -335,7 +347,12 @@ namespace universityEnrollments
                 enr.StudentName = studentName;
                 enr.SchoolProgram = schoolProgramInt;
                 enr.FormOfPayment = formOfPaymentInt;
-
+                paymentAndCredits data = getPaymentAndCredits(schoolProgramInt, formOfPaymentInt);
+                enr.Credits = data.credits;
+                enr.Discount = data.discount;
+                enr.FullPayment = data.fullPayment;
+                enr.Discounted = data.discounted;
+                enr.NetPayment = data.netPayment;
 
                 //guarde el objeto empleado en el array;
                 enrollmentArray[i] = enr;
@@ -349,6 +366,19 @@ namespace universityEnrollments
 
             //obtenga el numero de matriculas
             int numberOfEnrollments = getNumberOfEnrollments();
+
+            //obtenga informacion de matriculas
+            Enrollment[] enrollmentArray = getEnrollmentInformation(numberOfEnrollments);
+
+            Console.WriteLine("StudentName" + "\t" + "SchoolProgram" + "\t" + "FormOfPayment" + "\t" + "Discount" + "\t" + "FullPayment" + "\t" + "Discounted" + "\t" + "NetPayment");
+            foreach (Enrollment enr in enrollmentArray)
+            {
+                Console.WriteLine(enr.StudentName +"\t" + enr.SchoolProgram + "\t" + enr.FormOfPayment + "\t" + enr.Discount + "\t" + enr.FullPayment + "\t" + enr.Discounted + "\t" + enr.NetPayment);
+            }
+
+            //salga del programa despues de ejecucion finalizada
+            Console.WriteLine("Presione enter para finalizar...");
+            Console.ReadLine();
         }
     }
 }
