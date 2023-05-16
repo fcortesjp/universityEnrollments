@@ -332,7 +332,7 @@ namespace universityEnrollments
                         continue;
                     }
                     //revise que el codigo es menor que 1 o mayor que 2
-                    if (formOfPaymentInt < 1 || schoolProgramInt > 2)
+                    if (formOfPaymentInt < 1 || formOfPaymentInt > 2)
                     {
                         //si es asi, indique mensaje de error
                         Console.WriteLine("Error: El dato debe ser 1 o 2");
@@ -359,6 +359,80 @@ namespace universityEnrollments
             }
             return enrollmentArray;
         }
+
+        // esta funcion obtiene totales despues de iterar por todos los record de matriculas
+        public static void getTotals(Enrollment[] enrArray) 
+        {
+            //acumuladores
+            //Cantidad de estudiantes inscritos por programa académico.
+            int totalEnrSystEng = 0;
+            int totalEnrPsi = 0;
+            int totalEnrEco = 0;
+            int totalEnrSocCom = 0;
+            int totalEnrBusMan = 0;
+            //Total de créditos inscritos en el tercer período académico del 2020.
+            int totalCredits = 0;
+            //Valor total pagado por los estudiantes sin tener en cuenta el descuento.
+            double totalFullPayment = 0.0;
+            //Valor total de descuentos aplicados por la universidad a los estudiantes.
+            double totalDiscounted = 0.0;
+            //Valor neto de las inscripciones del primer semestre del 2020.
+            double totalNetPayment = 0.0;
+
+            Console.WriteLine("--------------------------------------------------------------------------");
+            foreach (Enrollment enr in enrArray)
+            {
+                Console.WriteLine(enr.StudentName + "\t" + enr.SchoolProgram + "\t" + enr.FormOfPayment + "\t" + enr.Discount + "\t" + enr.FullPayment + "\t" + enr.Discounted + "\t" + enr.NetPayment);
+                
+                switch (enr.SchoolProgram)
+                {
+                    case 1:
+                        // Ingeniería de sistemas
+                        totalEnrSystEng++;
+                        break;
+                    case 2:
+                        // Psicología
+                        totalEnrPsi++;
+                        break;
+                    case 3:
+                        // Economía
+                        totalEnrEco++;
+                        break;
+                    case 4:
+                        // Comunicación Social
+                        totalEnrSocCom++;
+                        break;
+                    case 5:
+                        // Administración de Empresas
+                        totalEnrBusMan++;
+                        break;
+                }
+                //total de creditos
+                totalCredits = totalCredits + enr.Credits;
+                //total pago sin descuento
+                totalFullPayment = totalFullPayment + enr.FullPayment;
+                //total descontado
+                totalDiscounted = totalDiscounted + enr.Discounted;
+                //Total Neto Pagado (con el descuento aplicado)
+                totalNetPayment = totalNetPayment + enr.NetPayment;
+            }
+            Console.WriteLine("--------------------------------------------------------------------------");
+            //Muestre resultados
+            Console.WriteLine("\n\n");
+            Console.WriteLine("***********************Resultados***************************");
+            Console.WriteLine("* Total De matriculas por Programa:");
+            Console.WriteLine("  - Ingenieria de Sistemas: " + totalEnrSystEng);
+            Console.WriteLine("  - Psicologia: " + totalEnrPsi);
+            Console.WriteLine("  - Economia: " + totalEnrEco);
+            Console.WriteLine("  - Comunicacion Social: " + totalEnrSocCom);
+            Console.WriteLine("  - Administracion de Empresas: " + totalEnrBusMan);
+            Console.WriteLine("* Total de Creditos: " + totalCredits);
+            Console.WriteLine("* Total Pago sin descuentos: " + totalFullPayment);
+            Console.WriteLine("* Total Descontado: " + totalDiscounted);
+            Console.WriteLine("* Total Neto Pagado (con Descuento Aplicado): " + totalNetPayment);
+            Console.WriteLine("************************************************************");
+        }
+
         static void Main(string[] args)
         {
             //indique que hace el programa
@@ -370,12 +444,7 @@ namespace universityEnrollments
             //obtenga informacion de matriculas
             Enrollment[] enrollmentArray = getEnrollmentInformation(numberOfEnrollments);
 
-            Console.WriteLine("StudentName" + "\t" + "SchoolProgram" + "\t" + "FormOfPayment" + "\t" + "Discount" + "\t" + "FullPayment" + "\t" + "Discounted" + "\t" + "NetPayment");
-            foreach (Enrollment enr in enrollmentArray)
-            {
-                Console.WriteLine(enr.StudentName +"\t" + enr.SchoolProgram + "\t" + enr.FormOfPayment + "\t" + enr.Discount + "\t" + enr.FullPayment + "\t" + enr.Discounted + "\t" + enr.NetPayment);
-            }
-
+            getTotals(enrollmentArray);
             //salga del programa despues de ejecucion finalizada
             Console.WriteLine("Presione enter para finalizar...");
             Console.ReadLine();
