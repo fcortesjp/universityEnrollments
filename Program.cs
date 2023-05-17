@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace universityEnrollments
 {
     //Nombre del estudiante: Francisco Cortes
-    //Grupo: 
-    //Número y Texto del programa
+    //Grupo: 213022_268
+    //Número del Problema: 1
     //Código Fuente: autoría propia
     class Enrollment
     {
@@ -206,6 +206,7 @@ namespace universityEnrollments
                     paymentAndCredit.discount = 0.15;
                     break;
             }
+            
             // calcule pago completo
             paymentAndCredit.fullPayment = costPerCredit * paymentAndCredit.credits;
             // calculate descuento aplicable (si pago en efectivo) 
