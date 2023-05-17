@@ -434,6 +434,7 @@ namespace universityEnrollments
             Console.WriteLine("************************************************************");
         }
 
+        //funcion principal
         static void Main(string[] args)
         {
             //indique que hace el programa
